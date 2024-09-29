@@ -5,6 +5,8 @@ import com.ArsenyZh.library_service.mapper.LibraryMapper;
 import com.ArsenyZh.library_service.service.LibraryService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -16,29 +18,39 @@ public class LibraryController {
     private LibraryMapper libraryMapper;
 
     @GetMapping("/")
-    public List<LibraryDto> getAllLibrary () {
+    public ResponseEntity<List<LibraryDto>> getAllLibrary () {
         List<LibraryDto> libraryDtoList = libraryMapper.convertLibraryListToLibraryDtoList(libraryService.findAllLibraries());
 
-        return libraryDtoList;
+        if (libraryDtoList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(libraryDtoList);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(libraryDtoList);
     }
 
     @PostMapping("/add_book")
     public void addBookToLibrary (@RequestBody Long bookId) {
         LibraryDto libraryDto = libraryMapper.convertLibraryToLibraryDto(libraryService.saveBookToLibrary(bookId));
-        System.out.println(libraryDto);
     }
 
     @PostMapping("/take_book/{id}")
-    public LibraryDto takeBookFromLibrary (@PathVariable("id") Long id) {
+    public ResponseEntity<LibraryDto> takeBookFromLibrary (@PathVariable("id") Long id) {
+        if (libraryService.findById(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
         LibraryDto libraryDto = libraryMapper.convertLibraryToLibraryDto(libraryService.takeBookFromLibrary(id));
 
-        return libraryDto;
+        return ResponseEntity.status(HttpStatus.OK).body(libraryDto);
     }
 
     @PostMapping("/return_book/{id}")
-    public LibraryDto returnBookToLibrary (@PathVariable("id") Long id) {
+    public ResponseEntity<LibraryDto> returnBookToLibrary (@PathVariable("id") Long id) {
+        if (libraryService.findById(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
         LibraryDto libraryDto = libraryMapper.convertLibraryToLibraryDto(libraryService.returnBookToLibrary(id));
 
-        return libraryDto;
+        return ResponseEntity.status(HttpStatus.OK).body(libraryDto);
     }
 }
