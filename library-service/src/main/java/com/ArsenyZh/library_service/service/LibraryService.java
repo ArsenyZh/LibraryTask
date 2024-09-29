@@ -13,6 +13,12 @@ import java.util.List;
 public class LibraryService {
     private LibraryRepository libraryRepository;
 
+    public Library findById (Long id) {
+        Library library = libraryRepository.findById(id).orElse(null);
+
+        return library;
+    }
+
     public List<Library> findAllLibraries () {
         List<Library> libraryList = libraryRepository.findAll();
 
