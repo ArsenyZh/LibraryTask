@@ -27,6 +27,16 @@ public class LibraryController {
         return ResponseEntity.status(HttpStatus.OK).body(libraryDtoList);
     }
 
+    @GetMapping("/free_books")
+    public ResponseEntity<List<Long>> getAllFreeBooksFromLibrary() {
+        List<Long> freeBooksIdList = libraryService.freeBooks();
+
+        if (freeBooksIdList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(freeBooksIdList);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(freeBooksIdList);
+    }
+
     @PostMapping("/add_book")
     public void addBookToLibrary (@RequestBody Long bookId) {
         LibraryDto libraryDto = libraryMapper.convertLibraryToLibraryDto(libraryService.saveBookToLibrary(bookId));
