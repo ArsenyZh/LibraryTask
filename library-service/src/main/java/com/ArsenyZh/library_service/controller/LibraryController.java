@@ -22,12 +22,10 @@ public class LibraryController {
         return libraryDtoList;
     }
 
-    @GetMapping("/add_book")
-    public LibraryDto addBookToLibrary (Long bookId) {
+    @PostMapping("/add_book")
+    public void addBookToLibrary (@RequestBody Long bookId) {
         LibraryDto libraryDto = libraryMapper.convertLibraryToLibraryDto(libraryService.saveBookToLibrary(bookId));
-        System.out.println(bookId);
-
-        return libraryDto;
+        System.out.println(libraryDto);
     }
 
     @PostMapping("/take_book/{id}")
