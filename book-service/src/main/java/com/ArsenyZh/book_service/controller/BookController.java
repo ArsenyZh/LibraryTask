@@ -2,6 +2,7 @@ package com.ArsenyZh.book_service.controller;
 
 import com.ArsenyZh.book_service.dto.BookDto;
 import com.ArsenyZh.book_service.entity.Book;
+import com.ArsenyZh.book_service.feign.LibraryServiceFeignClient;
 import com.ArsenyZh.book_service.mapper.BookMapper;
 import com.ArsenyZh.book_service.service.BookService;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 public class BookController {
     private BookService bookService;
     private BookMapper bookMapper;
+    private LibraryServiceFeignClient feignClient;
 
     @GetMapping("/")
     public List<BookDto> getAllBooks () {
@@ -40,6 +42,7 @@ public class BookController {
     @PostMapping("/add")
     public BookDto addBook (@RequestBody BookDto bookDto) {
         Book newBook = bookService.addBook(bookMapper.convertBookDtoToBook(bookDto));
+        feignClient.addBookToLibrary(newBook.getId());
 
         return bookMapper.convertBookToBookDto(newBook);
     }
