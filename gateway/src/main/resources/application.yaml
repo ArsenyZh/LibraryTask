@@ -7,5 +7,5 @@ zuul:
       path: /api/v1/books/**
       url: localhost:8081/
     library-service:
-      path: /api/v1/library
+      path: /api/v1/library/**
       url: localhost:8082/
