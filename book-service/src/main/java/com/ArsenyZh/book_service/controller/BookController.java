@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/v1/books")
+//@RequestMapping("/api/v1/books")
 @RestController
 @AllArgsConstructor
 public class BookController {
