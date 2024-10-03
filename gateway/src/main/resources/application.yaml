@@ -21,6 +21,13 @@ spring:
           filters:
             - StripPrefix=3
 
+        - id: auth-service-route
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+
 eureka:
   client:
     healthcheck:
@@ -28,3 +35,8 @@ eureka:
 logging:
   level:
     org.springframework: debug
+
+security:
+  jwt:
+    secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+    prefix: "Bearer"
