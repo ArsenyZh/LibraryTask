@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-@RequestMapping("/api/v1/library")
+//@RequestMapping("/api/v1/library")
 @RestController
 @AllArgsConstructor
 public class LibraryController {
