@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: book-service
+    name: auth-service
   datasource:
     url: jdbc:postgresql://localhost:5432/User_DB
     username: postgres
