@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS users
 );
 
 INSERT INTO users (id, email, password) VALUES
-    (1, 'user1@example.com', 'password123'),
-    (2, 'em@mail.ru', '1111');
+    (1, 'em@mail.ru', '$2a$10$r4LL5ZevfgSQlpJArn71yOkPEpdt.dCWCx8lDk4dAo3G7WQ081Q4e'); --1111
+
+ALTER SEQUENCE users_id_seq RESTART WITH 10;  -- Задаем начальное значение 10
