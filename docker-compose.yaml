@@ -1,0 +1,119 @@
+version: '3'
+
+services:
+  book-service:
+    build:
+      context: ./book-service
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    depends_on:
+      - db-books
+      - eureka-service
+    environment:
+      spring.application.name: book-service
+      server.port: 8081
+
+      SPRING_DATASOURCE_URL_1: jdbc:postgresql://db-books:5432/books_db
+      eureka.client.service-url.defaultZone: http://eureka-service:8761/eureka/
+
+      client.application.name: library-service
+      additional-service.url: http://library-service:8082/
+
+  library-service:
+    build:
+      context: ./library-service
+      dockerfile: Dockerfile
+    ports:
+      - 8082:8082
+    depends_on:
+      - db-library
+      - eureka-service
+    environment:
+      spring.application.name: library-service
+      server.port: 8082
+
+      SPRING_DATASOURCE_URL_1: jdbc:postgresql://db-library:5432/library_db
+      eureka.client.service-url.defaultZone: http://eureka-service:8761/eureka/
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - 8084:8084
+    depends_on:
+      - db-users
+      - eureka-service
+    environment:
+      SERVER_PORT: 8084
+      SPRING_DATASOURCE_URL_1: jdbc:postgresql://db-users:5432/users_db
+      eureka.client.service-url.defaultZone: http://eureka-service:8761/eureka/
+
+  eureka-service:
+    build:
+      context: ./eureka-service
+      dockerfile: Dockerfile
+    ports:
+      - 8761:8761
+    depends_on:
+      - db-users
+    environment:
+      - SERVER_PORT=8761
+
+  gateway-service:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - eureka-service
+    environment:
+      SERVER_PORT: 8080
+      eureka.client.service-url.defaultZone: http://eureka-service:8761/eureka/
+
+  db-books:
+    image: postgres:12
+    restart: always
+    ports:
+      - 5444:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: books_db
+    volumes:
+        - db-books-data:/var/lib/postgresql/data
+        - ./book-service/src/main/resources/booksDB/scripts/initBooksDB.sql:/docker-entrypoint-initdb.d/initBooksDB.sql
+
+  db-library:
+    image: postgres:12
+    restart: always
+    ports:
+      - 5445:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: library_db
+    volumes:
+      - db-library-data:/var/lib/postgresql/data
+      - ./library-service/src/main/resources/libraryDB/scripts/initLibraryDB.sql:/docker-entrypoint-initdb.d/initLibraryDB.sql
+
+  db-users:
+    image: postgres:12
+    restart: always
+    ports:
+      - 5446:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: users_db
+    volumes:
+      - db-users-data:/var/lib/postgresql/data
+      - ./auth-service/src/main/resources/usersBD/scripts/initUsersBD.sql:/docker-entrypoint-initdb.d/initUsersBD.sql
+
+
+volumes:
+  db-books-data: {}
+  db-library-data: {}
+  db-users-data: {}
