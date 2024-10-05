@@ -5,9 +5,9 @@ spring:
   application:
     name: book-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/Books_DB
-    username: postgres
-    password: 112358
+    url: jdbc:postgresql://db-books:5432/books_db
+    username: admin
+    password: admin
   jpa:
     hibernate:
       ddl-auto: update
