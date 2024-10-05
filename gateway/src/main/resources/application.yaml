@@ -40,3 +40,20 @@ security:
   jwt:
     secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
     prefix: "Bearer"
+
+springdoc:
+  api-docs:
+    path: /api-docs              # Путь для получения OpenAPI спецификаций
+    enable: true                       # Включить генерацию документации
+  swagger-ui:
+    path: /swagger-ui.html              # Путь для доступа к Swagger UI
+    enabled: true                       # Включить Swagger UI
+    urls:
+      - url: /api-docs                  # URL для получения документации по gateway-service
+        name: Gateway Service           # Имя для отображения в Swagger UI
+      - url: /api/v1/books/api-docs     # URL для получения документации по book-service
+        name: Book Service              # Имя для отображения в Swagger UI
+      - url: /api/v1/library/api-docs   # URL для получения документации по library-service
+        name: Library Service           # Имя для отображения в Swagger UI
+      - url: /auth/api-docs             # URL для получения документации по auth-service
+        name: Auth Service              # Имя для отображения в Swagger UI

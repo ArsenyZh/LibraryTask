@@ -16,3 +16,9 @@ spring:
 eureka:
   client:
     enabled: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
