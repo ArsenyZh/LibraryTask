@@ -11,6 +11,6 @@ import java.util.List;
 public interface LibraryRepository extends JpaRepository<Library, Long> {
     Library findLibraryByBookId(Long bookId);
 
-    @Query("SELECT bookId FROM Library WHERE timeDue IS NULL")
-    List<Long> findAllByTimeDueIsNotNull();
+    @Query("SELECT l FROM Library l WHERE l.timeDue IS NULL")
+    List<Library> findAllByTimeDueIsNull();
 }

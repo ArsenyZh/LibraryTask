@@ -64,9 +64,9 @@ public class LibraryService {
         }
     }
 
-    public List<Long> freeBooks () {
-        List<Long> freeBooksIdList = libraryRepository.findAllByTimeDueIsNotNull();
+    public List<Library> freeBooks () {
+        List<Library> freeBooksList = libraryRepository.findAllByTimeDueIsNull();
 
-        return freeBooksIdList;
+        return freeBooksList;
     }
 }
