@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Table(name = "library")
 public class Library {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "books_id")
