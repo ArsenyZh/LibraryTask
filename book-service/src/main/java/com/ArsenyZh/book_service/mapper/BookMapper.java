@@ -31,6 +31,7 @@ public class BookMapper {
 
         for (Book book : bookList) {
             BookDto bookDto = new BookDto();
+            bookDto.setId(book.getId());
             bookDto.setIsbn(book.getIsbn());
             bookDto.setName(book.getName());
             bookDto.setGenre(book.getGenre());

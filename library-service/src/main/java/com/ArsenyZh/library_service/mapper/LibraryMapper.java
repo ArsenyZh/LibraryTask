@@ -31,6 +31,7 @@ public class LibraryMapper {
 
         for (Library library : libraryList) {
             LibraryDto libraryDto = new LibraryDto();
+            libraryDto.setId(library.getId());
             libraryDto.setBookId(library.getBookId());
             libraryDto.setTimeTaken(library.getTimeTaken());
             libraryDto.setTimeDue(library.getTimeDue());
